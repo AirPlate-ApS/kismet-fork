@@ -129,6 +129,12 @@ kis_tracked_signal_data::kis_tracked_signal_data(const kis_tracked_signal_data *
     }
 
 void  kis_tracked_signal_data::append_signal(const kis_layer1_packinfo& lay1, bool update_rrd, time_t rrd_ts) {
+    last_signal->set(lay1.signal_rssi); // ADDED; rssi
+    min_signal->set(lay1.signal_dbm); // ADDED; device_type_8
+    max_signal->set(lay1.noise_dbm); // ADDED; speed_e
+    last_noise->set(lay1.noise_rssi); // ADDED; speed_n
+    min_noise->set(lay1.freq_khz); // ADDED; speed_u
+
     if (lay1.signal_type == kis_l1_signal_type_dbm && (sig_type == 0 || sig_type == 1)) {
         if (sig_type == 0) {
             signal_type->set("dbm");
@@ -204,6 +210,12 @@ void  kis_tracked_signal_data::append_signal(const kis_layer1_packinfo& lay1, bo
 }
 
 void kis_tracked_signal_data::append_signal(const packinfo_sig_combo& in, bool update_rrd, time_t rrd_ts) {
+    last_signal->set(in.lay1->signal_rssi); // ADDED; rssi
+    min_signal->set(in.lay1->signal_dbm); // ADDED; device_type_8
+    max_signal->set(in.lay1->noise_dbm); // ADDED; speed_e
+    last_noise->set(in.lay1->noise_rssi); // ADDED; speed_n
+    min_noise->set(in.lay1->freq_khz); // ADDED; speed_u
+
     if (in.lay1 != NULL) {
         if (in.lay1->signal_type == kis_l1_signal_type_dbm && (sig_type == 0 || sig_type == 1)) {
             if (sig_type == 0) {

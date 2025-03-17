@@ -4180,9 +4180,11 @@ int cf_send_json(kis_capture_handler_t *caph,
     meta =
         cf_prepare_packet(caph, KIS_EXTERNAL_V3_KDS_PACKET, seqno, 0, est_len);
 
+/*
     if (meta == NULL) {
         return 0;
     }
+*/
 
     mpack_writer_init(&writer, (char *) meta->frame->data, est_len);
 

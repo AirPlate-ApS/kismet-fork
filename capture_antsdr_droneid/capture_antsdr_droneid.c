@@ -445,9 +445,19 @@ void capture_thread(kis_capture_handler_t *caph) {
 
         gettimeofday(&tv, NULL);
 
+// ADDED
+       struct cf_params_signal signal;
+       signal.signal_dbm = ant_droneid->device_type_8;
+       signal.noise_dbm = ant_droneid->speed_e;
+       signal.signal_rssi = ant_droneid->rssi;
+       signal.noise_rssi = ant_droneid->speed_n;
+       signal.freq_khz = ant_droneid->speed_u;
+       signal.channel = NULL;
+//
+
         while (1) {
             r = cf_send_json(caph, NULL, 0,
-                    NULL, NULL, tv,
+                    &signal, NULL, tv,
                     "antsdr-droneid", (char *) json);
 
 
