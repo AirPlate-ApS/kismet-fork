@@ -1,7 +1,5 @@
 on: 
-  push:
-    tags:
-    - '*'
+  push
 
 permissions:
   contents: write
