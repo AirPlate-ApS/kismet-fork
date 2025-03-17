@@ -31,7 +31,7 @@ jobs:
       - name: Checkout Kismet
         uses: actions/checkout@v4
         with:
-          ref: kismet-fork
+          repository: kismetwireless/kismet
       - name: Compile kismet
         run: |
           ./configure
