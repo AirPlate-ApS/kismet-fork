@@ -25,21 +25,47 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git pkg-config libwebsockets-dev \
-            zlib1g-dev libnl-3-dev libnl-genl-3-dev libcap-dev libpcap-dev \
-            libnm-dev libdw-dev libsqlite3-dev libprotobuf-dev libprotobuf-c-dev \
-            protobuf-compiler protobuf-c-compiler libsensors-dev libusb-1.0-0-dev \
-            python3 python3-setuptools python3-protobuf python3-requests zlib1g \
-            python3-numpy python3-serial python3-usb python3-dev python3-websockets \
-            librtlsdr-dev libubertooth-dev libbtbb-dev libmosquitto-dev gcc make zlib1g-dev
+          if [[ "${{ matrix.platform.target }}" == "arm-linux-gnueabihf" ]]; then
+            sudo dpkg --add-architecture armhf
+            echo "
+              Types: deb
+              URIs: http://ports.ubuntu.com/ubuntu-ports
+              Suites: noble noble-updates noble-backports
+              Components: main universe restricted multiverse
+              Architectures: armhf
+              Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+              Types: deb
+              URIs: http://ports.ubuntu.com/ubuntu-ports
+              Suites: noble-security
+              Components: main universe restricted multiverse
+              Architectures: armhf
+              Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg" | sudo tee /etc/apt/sources.list.d/armhf.sources
+            sudo apt-get update
+            sudo apt-get install -y build-essential git pkg-config libwebsockets-dev:armhf \
+              zlib1g-dev:armhf libnl-3-dev:armhf libnl-genl-3-dev:armhf libcap-dev:armhf \
+              libpcap-dev:armhf libnm-dev:armhf libdw-dev:armhf libsqlite3-dev:armhf \
+              libprotobuf-dev:armhf libprotobuf-c-dev:armhf protobuf-compiler:armhf \
+              protobuf-c-compiler:armhf libsensors-dev:armhf libusb-1.0-0-dev:armhf \
+              python3 python3-setuptools python3-protobuf python3-requests zlib1g \
+              python3-numpy python3-serial python3-usb python3-dev python3-websockets \
+              librtlsdr-dev:armhf libubertooth-dev:armhf libbtbb-dev:armhf libmosquitto-dev:armhf \
+              gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabi
+          else 
+            sudo apt-get update
+            sudo apt-get install -y build-essential git pkg-config libwebsockets-dev \
+              zlib1g-dev libnl-3-dev libnl-genl-3-dev libcap-dev libpcap-dev \
+              libnm-dev libdw-dev libsqlite3-dev libprotobuf-dev libprotobuf-c-dev \
+              protobuf-compiler protobuf-c-compiler libsensors-dev libusb-1.0-0-dev \
+              python3 python3-setuptools python3-protobuf python3-requests zlib1g \
+              python3-numpy python3-serial python3-usb python3-dev python3-websockets \
+              librtlsdr-dev libubertooth-dev libbtbb-dev libmosquitto-dev gcc make zlib1g-dev
+          fi
       - name: Checkout Kismet
         uses: actions/checkout@v4
-        with:
-          repository: kismetwireless/kismet
       - name: Compile kismet
         run: |
-          ./configure --host=${{ matrix.platform.target }}
+          ./configure --host="${{ matrix.platform.target }}"
           make version
           make -j$(nproc)
       - name: Archive Release
