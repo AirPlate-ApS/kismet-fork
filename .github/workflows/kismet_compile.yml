@@ -18,6 +18,9 @@ jobs:
           - os-name: Linux-aarch64
             runs-on: ubuntu-24.04-arm
             target: aarch64-linux-gnu
+          - os-name: Linux-armhf
+            runs-on: ubuntu-24.04-arm
+            target: arm-linux-gnueabihf
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
       - name: Install dependencies
@@ -36,7 +39,7 @@ jobs:
           repository: kismetwireless/kismet
       - name: Compile kismet
         run: |
-          ./configure
+          ./configure --host=${{ matrix.platform.target }}
           make version
           make -j$(nproc)
       - name: Archive Release
