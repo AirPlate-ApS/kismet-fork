@@ -48,7 +48,7 @@ jobs:
               libprotobuf-dev:armhf libprotobuf-c-dev:armhf protobuf-compiler:armhf \
               protobuf-c-compiler:armhf libsensors-dev:armhf libusb-1.0-0-dev:armhf \
               python3:armhf python3-setuptools:armhf python3-protobuf:armhf python3-requests:armhf zlib1g:armhf \
-              python3-numpy:armhf python3-serial python3-usb python3-dev:armhf python3-websockets:armhf \
+              python3-numpy:armhf python3-serial python3-usb python3-dev:armhf python3-websockets \
               librtlsdr-dev:armhf libubertooth-dev:armhf libbtbb-dev:armhf libmosquitto-dev:armhf \
               gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabi
           else 
