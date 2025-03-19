@@ -50,7 +50,7 @@ jobs:
               python3 python3-setuptools python3-protobuf python3-requests zlib1g \
               python3-numpy python3-serial python3-usb python3-dev python3-websockets \
               librtlsdr-dev:armhf libubertooth-dev:armhf libbtbb-dev:armhf libmosquitto-dev:armhf \
-              gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabi
+              gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
           else 
             sudo apt-get update
             sudo apt-get install -y build-essential git pkg-config libwebsockets-dev \
@@ -65,11 +65,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Compile kismet
         run: |
-          if [[ "${{ matrix.platform.target }}" == "arm-linux-gnueabihf" ]]; then
-            ./configure --host="${{ matrix.platform.target }}" LDFLAGS="-static"
-          else
-            ./configure --host="${{ matrix.platform.target }}"
-          fi
+          ./configure --host="${{ matrix.platform.target }}"
           make version
           make -j$(nproc)
       - name: Archive Release
