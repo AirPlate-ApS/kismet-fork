@@ -42,3 +42,7 @@ is commented out.
 Depending on the signal-/packet-type, Kismet appends certain fields about the signal to the payload being sent to the API; if the signal unit is dbm, it exposes the parameters in dbm units, vice versa if the signal unit is rssi.
 
 Neither is true for the antsdr-plugin, as such the fields are appended independently of the signal unit.
+
+### Miscellaneous
+
+Workflow is only triggered once a new tag have been pushed.
